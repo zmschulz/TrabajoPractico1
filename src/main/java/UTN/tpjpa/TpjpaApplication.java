@@ -47,6 +47,9 @@ public class TpjpaApplication {
 	CommandLineRunner initclidom(ClienteRepository clienteRepo, DomicilioRepository domicilioRepo) {
 		return args -> {
 			System.out.println("Funcando");
+
+			// Se crean las instancias de cliente y domicilios
+
 			Domicillio domicillio1 = Domicillio.builder()
 					.calle("Calle 1")
 					.numero("123")
@@ -66,36 +69,16 @@ public class TpjpaApplication {
 					.email("Juan@gmail")
 					.build();
 
-			LocalDate localDate1 = LocalDate.of(2023, Month.FEBRUARY, 02);
-			Date date1 = Date.from(localDate1.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-			Pedido pedido1 = Pedido.builder()
-					.estadoPedido(EstadoPedido.Iniciado)
-					.fecha(date1)
-					.TipoEnvio(TipoEnvio.Delivery)
-					.total(4500.0)
-					.build();
 
-			Date date2 = Date.from(localDate1.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-			Pedido pedido2 = Pedido.builder()
-					.estadoPedido(EstadoPedido.Preparacion)
-					.fecha(date2)
-					.TipoEnvio(TipoEnvio.Retira)
-					.total(3000.0)
-					.build();
-
-			Factura factura = Factura.builder()
-					.numero(4)
-					.fecha(date1)
-					.descuento(10.0)
-					.Formadepago(FormadePago.Efectivo)
-					.total(3500)
-					.build();
-
+			//Se le añaden los domicilios al Cliente
 			cliente.agregarDomicilio(domicillio1);
 			cliente.agregarDomicilio(domicillio2);
 
+			// Se guarda el objeto cliente en la base de datos
 
 			clienteRepository.save(cliente);
+			
+			// Se recupera el objeto cliente desde la base de datos
 
 			Cliente clienteRecuperado = clienteRepository.findById(cliente.getId()).orElse(null);
 
