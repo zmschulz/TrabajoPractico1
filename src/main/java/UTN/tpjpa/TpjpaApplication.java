@@ -44,7 +44,7 @@ public class TpjpaApplication {
 	}
 
 	@Bean
-	CommandLineRunner initclidom(ClienteRepository clienteRepo, DomicilioRepository domicilioRepo) {
+	CommandLineRunner initclidom(ClienteRepository clienteRepo, DomicilioRepository domicilioRepo, DetallePedidoRepository detallePedidoRepo, FacturaRepository facturaRepo, PedidoRepository pedidoRepo, ProductoRepository productoRepo, RubroRepository rubroRepo) {
 		return args -> {
 			System.out.println("Funcando");
 
@@ -61,38 +61,6 @@ public class TpjpaApplication {
 					.numero("456")
 					.localidad("Localidad 2")
 					.build();
-
-			Cliente cliente = Cliente.builder()
-					.nombre("Juan")
-					.apellido("Perez")
-					.telefono("1234567")
-					.email("Juan@gmail")
-					.build();
-
-
-			//Se le añaden los domicilios al Cliente
-			cliente.agregarDomicilio(domicillio1);
-			cliente.agregarDomicilio(domicillio2);
-
-			// Se guarda el objeto cliente en la base de datos
-
-			clienteRepository.save(cliente);
-			
-			// Se recupera el objeto cliente desde la base de datos
-
-			Cliente clienteRecuperado = clienteRepository.findById(cliente.getId()).orElse(null);
-
-			if (clienteRecuperado != null) {
-				System.out.println("Nombre " + clienteRecuperado.getNombre());
-				System.out.println("Apellido " + clienteRecuperado.getApellido());
-				System.out.println("Telefono " + clienteRecuperado.getTelefono());
-				System.out.println("email " + clienteRecuperado.getEmail());
-			}
-		};
-	}
-	@Bean
-	CommandLineRunner initcliped(ClienteRepository clienteRepo, PedidoRepository pedidoRepo) {
-		return args -> {
 
 			Cliente cliente = Cliente.builder()
 					.nombre("Juan")
@@ -118,43 +86,6 @@ public class TpjpaApplication {
 					.total(3000.0)
 					.build();
 
-			Factura factura = Factura.builder()
-					.numero(4)
-					.fecha(date1)
-					.descuento(10.0)
-					.Formadepago(FormadePago.Efectivo)
-					.total(3500)
-					.build();
-
-			cliente.agregarPedido(pedido1);
-			cliente.agregarPedido(pedido2);
-
-			clienteRepository.save(cliente);
-
-			Cliente clienteRecuperado = clienteRepository.findById(cliente.getId()).orElse(null);
-
-			if (clienteRecuperado != null) {
-				System.out.println("Nombre " + clienteRecuperado.getNombre());
-				System.out.println("Apellido " + clienteRecuperado.getApellido());
-				System.out.println("Telefono " + clienteRecuperado.getTelefono());
-				System.out.println("email " + clienteRecuperado.getEmail());
-			}
-		};
-	}
-
-	@Bean
-	CommandLineRunner initpeddetalleped(PedidoRepository pedidoRepo,DetallePedidoRepository detallePedidoRepo) {
-		return args -> {
-
-			LocalDate localDate1 = LocalDate.of(2023, Month.FEBRUARY, 02);
-			Date date1 = Date.from(localDate1.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-			Pedido pedido = Pedido.builder()
-					.estadoPedido(EstadoPedido.Iniciado)
-					.fecha(date1)
-					.TipoEnvio(TipoEnvio.Delivery)
-					.total(4500.0)
-					.build();
-
 			DetallePedido detallePedido1 = DetallePedido.builder()
 					.cantidad(2)
 					.subtotal(4000.0)
@@ -165,68 +96,12 @@ public class TpjpaApplication {
 					.subtotal(6000.0)
 					.build();
 
-			pedido.agregarDetallePedido(detallePedido1);
-			pedido.agregarDetallePedido(detallePedido2);
-
-			pedidoRepository.save(pedido);
-
-			Pedido pedidoRecuperado = pedidoRepository.findById(pedido.getId()).orElse(null);
-
-			if (pedidoRecuperado != null) {
-				System.out.println("Estado Pedido " + pedidoRecuperado.getEstadoPedido());
-				System.out.println("Fecha " + pedidoRecuperado.getFecha());
-				System.out.println("Tipo de Envio " + pedidoRecuperado.getTipoEnvio());
-				System.out.println("Total " + pedidoRecuperado.getTotal());
-			}
-		};
-	}
-	@Bean
-	CommandLineRunner initpedfac(PedidoRepository pedidoRepo,FacturaRepository facturaRepo) {
-		return args -> {
-
-			LocalDate localDate1 = LocalDate.of(2023, Month.FEBRUARY, 02);
-			Date date1 = Date.from(localDate1.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-			Pedido pedido = Pedido.builder()
-					.estadoPedido(EstadoPedido.Iniciado)
-					.fecha(date1)
-					.TipoEnvio(TipoEnvio.Delivery)
-					.total(4500.0)
-					.build();
-
 			Factura factura = Factura.builder()
 					.numero(4)
 					.fecha(date1)
 					.descuento(10.0)
 					.Formadepago(FormadePago.Efectivo)
 					.total(3500)
-					.build();
-
-			pedido.setFactura(factura);
-
-			pedidoRepository.save(pedido);
-
-			Pedido pedidoRecuperado = pedidoRepository.findById(pedido.getId()).orElse(null);
-
-			if (pedidoRecuperado != null) {
-				System.out.println("Estado Pedido " + pedidoRecuperado.getEstadoPedido());
-				System.out.println("Fecha " + pedidoRecuperado.getFecha());
-				System.out.println("Tipo de Envio " + pedidoRecuperado.getTipoEnvio());
-				System.out.println("Total " + pedidoRecuperado.getTotal());
-			}
-		};
-	}
-	@Bean
-	CommandLineRunner initdetalleprod(DetallePedidoRepository detallePedidoRepo,ProductoRepository productoRepo) {
-		return args -> {
-
-			DetallePedido detallePedido1 = DetallePedido.builder()
-					.cantidad(2)
-					.subtotal(4000.0)
-					.build();
-
-			DetallePedido detallePedido2 = DetallePedido.builder()
-					.cantidad(4)
-					.subtotal(6000.0)
 					.build();
 
 			Producto producto = Producto.builder()
@@ -240,68 +115,41 @@ public class TpjpaApplication {
 					.unidadvendida("Hamburguesa")
 					.receta("Receta Hamburguesa")
 					.build();
-			detallePedido1.agregarProducto(producto);
-			detallePedido2.agregarProducto(producto);
-
-
-			detallePedidoRepository.save(detallePedido1);
-
-			DetallePedido detallepedidoRecuperado = detallePedidoRepository.findById(detallePedido1.getId()).orElse(null);
-
-			if (detallepedidoRecuperado != null) {
-				System.out.println("Cantidad " + detallepedidoRecuperado.getCantidad());
-				System.out.println("Subtotal " + detallepedidoRecuperado.getSubtotal());
-
-			}
-		};
-	}
-	@Bean
-	CommandLineRunner initRubrosprod(RubroRepository rubroRepo,ProductoRepository productoRepo) {
-		return args -> {
-
-			Producto producto1 = Producto.builder()
-					.tipoproducto(TipoProducto.Insumo)
-					.tiempoestimadoCocina(2)
-					.denominacion("Papas fritas")
-					.precioventa(1000.0)
-					.preciocompra(950.0)
-					.stockactual(70)
-					.stockminimo(2)
-					.unidadvendida("Hamburguesa")
-					.receta("Receta Hamburguesa")
-					.build();
-
-			Producto producto2 = Producto.builder()
-					.tipoproducto(TipoProducto.Insumo)
-					.tiempoestimadoCocina(2)
-					.denominacion("Lomito")
-					.precioventa(1200.0)
-					.preciocompra(1100.0)
-					.stockactual(50)
-					.stockminimo(1)
-					.unidadvendida("Lomito")
-					.receta("Receta Lomito")
-					.build();
 
 
 			Rubro rubro = Rubro.builder()
 					.denominacion("Comida rapida")
 					.build();
 
-			rubro.agregarProducto(producto1);
-			rubro.agregarProducto(producto2);
 
+			cliente.agregarDomicilio(domicillio1);
+			cliente.agregarDomicilio(domicillio2);
+			cliente.agregarPedido(pedido1);
+			cliente.agregarPedido(pedido2);
+			pedido1.agregarDetallePedido(detallePedido1);
+			pedido2.agregarDetallePedido(detallePedido2);
+			pedido1.setFactura(factura);
+			detallePedido1.agregarProducto(producto);
+			detallePedido2.agregarProducto(producto);
+			rubro.agregarProducto(producto);
+
+
+			clienteRepository.save(cliente);
+			pedidoRepository.save(pedido1);
+			pedidoRepository.save(pedido2);
+			detallePedidoRepository.save(detallePedido1);
 			rubroRepository.save(rubro);
 
-			Rubro rubroRecuperado = rubroRepository.findById(rubro.getId()).orElse(null);
+			// Se recupera el objeto cliente desde la base de datos
 
-			if (rubroRecuperado != null) {
-				System.out.println("Nombre: " + rubroRecuperado.getDenominacion());
-				rubroRecuperado.mostrarproductos();
+			Cliente clienteRecuperado = clienteRepository.findById(cliente.getId()).orElse(null);
 
+			if (clienteRecuperado != null) {
+				System.out.println("Nombre " + clienteRecuperado.getNombre());
+				System.out.println("Apellido " + clienteRecuperado.getApellido());
+				System.out.println("Telefono " + clienteRecuperado.getTelefono());
+				System.out.println("email " + clienteRecuperado.getEmail());
 			}
 		};
 	}
 }
-
-

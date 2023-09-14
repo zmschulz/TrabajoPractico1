@@ -29,7 +29,7 @@ public class Rubro {
     public void mostrarproductos() {
         System.out.println("Denominacion" + denominacion );
         for (Producto producto : productos) {
-            System.out.println("Tipo de produccion: " + producto.getTipoproducto() + "Tiempo estimado de Cocina: " + producto.getTiempoestimadoCocina() +
+            System.out.println("Tipo de produccion: " + producto.\getTipoproducto() + "Tiempo estimado de Cocina: " + producto.getTiempoestimadoCocina() +
                     "denominacion: " + producto.getDenominacion() +
                     "Precio de Venta: " + producto.getPrecioventa() + "Precio de Compra: " + producto.getPreciocompra() +
                     "Stock Actual: " + producto.getStockactual() + "Stock Minimo: " + producto.getStockminimo() + "Unidad vendida: " + producto.getUnidadvendida() +

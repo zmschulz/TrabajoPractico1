@@ -21,7 +21,7 @@ public class DetallePedido {
     private Integer cantidad;
     private Double subtotal;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "DetallePedido_id")
     @Builder.Default
     private List<Producto> productos = new ArrayList<>();
